@@ -19,15 +19,15 @@
         mapboxgl.accessToken = accessToken;
         
         let markers = [];
+        // create map
+        let map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-71.104081, 42.365554],
+            zoom: 14
+        });
 
         function init() {
-            // create map
-            let map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-71.104081, 42.365554],
-                zoom: 14
-            });
 
             getBusLocations().then(
                 busses => {
@@ -41,8 +41,8 @@
                         markers.push({id: bus["id"], bus_marker: marker})
                     })
                 }
-            )
-            // TODO implement refresh
+            ).catch(err => alert("An error occured setting markers: ", err))
+
             // setTimeout(refresh, 15000);
         }
 
@@ -53,8 +53,48 @@
 			return json.data;
 		}
 
+        function refresh() {
+            getBusLocations().then(busses => {
+                busses.forEach((bus) => {
+                    let lat = bus["attributes"]["latitude"];
+                    let long = bus["attributes"]["longitude"];
+                    
+                    for (let i = 0; i < markers.lenght; i++) {
+                        if (markers[i]["id"] === bus["id"]) {
+                            markers[i]["bus_marker"].setLngLat([long,lat]);
+                            console.log("bus exists. updating...")
+                            return;
+                        }
+                    }
+                    // if bus is not found create a new marker for it
+                    console.log("bus not found. creating new one...")
+                    const marker = new mapboxgl.Marker()
+                            .setLngLat([long, lat])
+                            .addTo(map);
+                    markers.push({id: bus["id"], bus_marker: marker});
+                })
+        })
+        };
+
         init();
 
-        console.log(markers);
+        // console.log(markers);
+        
+
+
+                // let bus = busses[i];
+                //     let lat = bus["attributes"]["latitude"];
+                //     let long = bus["attributes"]["longitude"];
+                //     for (let i = 0; i < markers.lenght; i++) {
+                //         if (markers[i]["id"] === bus["id"]) {
+                //             markers[i]["bus_marker"].setLngLat([long,lat]);
+                //             return;
+                //         }
+                //     }
+                //     // if bus is not found create a new marker for it
+                //     const marker = new mapboxgl.Marker()
+                //             .setLngLat([long, lat])
+                //             .addTo(map);
+                //     markers.push({id: bus["id"], bus_marker: marker});
     </script>
 </html>
