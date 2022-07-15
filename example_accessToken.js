@@ -1,0 +1,1 @@
+accessToken = 'add your access token for mapbox here';
