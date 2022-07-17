@@ -9,4 +9,4 @@ It displays the current position of certain busses commuting between Harvard and
 - rename example_accessToken.js and add your personal Mapbox access token
 - open real-time-bus-tracker.html
 ## Future improvements
-- make markers change color depending on the direction of the busses
+- make markers change color when busses change direction
