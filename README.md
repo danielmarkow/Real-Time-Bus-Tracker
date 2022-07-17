@@ -4,7 +4,9 @@ This exercise is part of the MIT xPro full stack development course. It comnbine
 - MTBA location data of buses in Boston
 - Mapbox
 It displays the current position of certain busses commuting between Harvard and MIT in Boston.
-## Usage
+## How to use
 - git clone the repository
 - rename example_accessToken.js and add your personal Mapbox access token
 - open real-time-bus-tracker.html
+## Future improvements
+- make markers change color depending on the direction of the busses
